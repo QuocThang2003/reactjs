@@ -1,0 +1,191 @@
+/* Phần Liên Hệ */
+.contact-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+/* Tiêu đề Liên Hệ */
+.contact-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.contact-title {
+    font-size: 2.25rem; /* 36px */
+    font-weight: 700;
+    color: #1a2a44;
+    margin-bottom: 0.625rem; /* 10px */
+}
+
+.contact-subtitle {
+    font-size: 1.125rem; /* 18px */
+    color: #666;
+}
+
+/* Thông Tin Liên Hệ */
+.contact-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.25rem; /* 20px */
+    margin-bottom: 3.75rem; /* 60px */
+}
+
+.contact-info-item {
+    flex: 1;
+    text-align: center;
+    padding: 1.25rem; /* 20px */
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.contact-info-item:hover {
+    transform: translateY(-5px);
+}
+
+.contact-icon {
+    font-size: 1.875rem; /* 30px */
+    color: #00c4cc;
+    margin-bottom: 0.625rem; /* 10px */
+}
+
+.contact-info-item h5 {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 700;
+    color: #1a2a44;
+    margin-bottom: 0.625rem; /* 10px */
+}
+
+.contact-info-item p {
+    font-size: 1rem; /* 16px */
+    color: #666;
+    margin: 0;
+}
+
+/* Nội Dung Liên Hệ */
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.875rem; /* 30px */
+}
+
+/* Form Liên Hệ */
+.contact-form {
+    background: #fff;
+    padding: 1.875rem; /* 30px */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.contact-error {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    padding: 0.625rem; /* 10px */
+    border-radius: 5px;
+    margin-bottom: 1.25rem; /* 20px */
+    text-align: center;
+}
+
+.contact-success {
+    background: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+    padding: 0.625rem; /* 10px */
+    border-radius: 5px;
+    margin-bottom: 1.25rem; /* 20px */
+    text-align: center;
+}
+
+/* Đảm bảo phạm vi CSS chỉ áp dụng cho form liên hệ */
+.contact-form .form-group {
+    margin-bottom: 1.25rem; /* 20px */
+    position: relative;
+}
+
+.contact-form .form-group label {
+    display: block;
+    font-size: 1rem; /* 16px */
+    font-weight: 700;
+    color: #1a2a44;
+    margin-bottom: 0.3125rem; /* 5px */
+}
+
+.contact-form .form-group input,
+.contact-form .form-group textarea {
+    width: 100%;
+    padding: 0.625rem 0; /* 10px */
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    color: #333;
+    font-size: 1rem; /* 16px */
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.contact-form .form-group input::placeholder,
+.contact-form .form-group textarea::placeholder {
+    color: #999;
+}
+
+.contact-form .form-group input:focus,
+.contact-form .form-group textarea:focus {
+    border-color: #00c4cc;
+}
+
+.contact-form .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.contact-submit-btn {
+    width: 100%;
+    padding: 0.75rem; /* 12px */
+    background: #00c4cc;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem; /* 16px */
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.contact-submit-btn:hover {
+    background: #009ba1;
+    transform: scale(1.02);
+}
+
+/* Bản Đồ */
+.contact-map {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    height: 500px;
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-title {
+        font-size: 1.75rem; /* 28px */
+    }
+
+    .contact-subtitle {
+        font-size: 1rem; /* 16px */
+    }
+
+    .contact-info {
+        flex-direction: column;
+        gap: 0.9375rem; /* 15px */
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-map {
+        height: 300px;
+    }
+}

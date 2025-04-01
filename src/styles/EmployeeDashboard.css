@@ -1,0 +1,108 @@
+/* Biến màu sắc để dễ tùy chỉnh */
+:root {
+    --sidebar-bg: #1a252f; /* Màu nền sidebar */
+    --sidebar-text: #d1d4d6; /* Màu chữ */
+    --sidebar-hover-bg: #2c3e50; /* Màu nền khi hover */
+    --sidebar-active-bg: #3498db; /* Màu nền khi active */
+    --sidebar-toggle-bg: #34495e; /* Màu nền nút thu gọn */
+}
+
+/* Container chính */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px; /* Kích thước mặc định */
+    transition: width 0.3s ease;
+    background-color: var(--sidebar-bg);
+    min-height: 100vh;
+    padding-top: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.collapsed {
+    width: 80px; /* Khi thu nhỏ */
+}
+
+/* Header của sidebar */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Tiêu đề sidebar */
+.sidebar-title {
+    margin: 0;
+    color: var(--sidebar-text);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Nút thu gọn/mở rộng */
+.toggle-btn {
+    background-color: var(--sidebar-toggle-bg);
+    border: none;
+    color: var(--sidebar-text);
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background-color: var(--sidebar-hover-bg);
+}
+
+/* Menu của sidebar */
+.sidebar-menu {
+    margin-top: 20px;
+}
+
+.menu-item {
+    margin-bottom: 5px !important;
+    border-radius: 5px !important;
+    transition: all 0.3s ease !important;
+}
+
+.menu-item:hover {
+    background-color: var(--sidebar-hover-bg) !important;
+}
+
+.menu-item a {
+    color: var(--sidebar-text) !important;
+    font-weight: 500;
+}
+
+.menu-item.ant-menu-item-selected {
+    background-color: var(--sidebar-active-bg) !important;
+}
+
+.menu-item.ant-menu-item-selected a {
+    color: #fff !important;
+}
+
+/* Nội dung chính */
+.content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    width: calc(100% - 250px);
+}
+
+.content.collapsed {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+}

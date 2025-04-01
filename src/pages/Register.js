@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/register.css";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const Register = () => {
   const [fullName, setFullName] = useState("");
@@ -9,13 +11,24 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (!termsAccepted) {
+      alert("Vui lòng chấp nhận điều khoản để tiếp tục.");
+      return;
+    }
     try {
       const response = await axios.post("http://localhost:5000/api/auth/register", {
-        fullName, phone, email, password, confirmPassword,
+        fullName,
+        phone,
+        email,
+        password,
+        confirmPassword,
+        address,
       });
       console.log("Phản hồi từ server:", response);
       alert("Đăng ký thành công!");
@@ -31,65 +44,92 @@ const Register = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-gradient"
-         style={{ background: "linear-gradient(to bottom, #4b0082, #0000ff)" }}>
-      <div className="bg-white p-4 rounded shadow-lg w-25">
-        <h2 className="text-center text-primary">Đăng Ký</h2>
-        <div className="mx-auto my-2" style={{ width: "50px", height: "3px", backgroundColor: "#4b0082" }}></div>
-
-        <form onSubmit={handleRegister}>
-          <div className="mb-3">
-            <label className="form-label">Họ và tên</label>
-            <div className="input-group">
-              <span className="input-group-text">👤</span>
-              <input type="text" className="form-control" placeholder="Họ và tên"
-                     value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+    <>
+      <Header />
+      <div className="register-container">
+        <div className="register-form">
+          <button className="close-btn" onClick={() => navigate("/")}>×</button>
+          <h2>· Đăng Ký Tài Khoản ·</h2>
+          <form onSubmit={handleRegister}>
+            <div className="form-group">
+              <label>Họ và Tên</label>
+              <input
+                type="text"
+                placeholder="Nhập họ và tên"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+              />
             </div>
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Số điện thoại</label>
-            <div className="input-group">
-              <span className="input-group-text">📞</span>
-              <input type="text" className="form-control" placeholder="Số điện thoại"
-                     value={phone} onChange={(e) => setPhone(e.target.value)} required />
+            <div className="form-group">
+              <label>Địa chỉ Email</label>
+              <input
+                type="email"
+                placeholder="Nhập email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Email</label>
-            <div className="input-group">
-              <span className="input-group-text">📧</span>
-              <input type="email" className="form-control" placeholder="Email"
-                     value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <div className="form-group">
+              <label>Số Điện Thoại</label>
+              <input
+                type="text"
+                placeholder="Nhập số điện thoại"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
             </div>
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Mật khẩu</label>
-            <div className="input-group">
-              <span className="input-group-text">🔒</span>
-              <input type="password" className="form-control" placeholder="Mật khẩu"
-                     value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <div className="form-group">
+              <label>Địa Chỉ</label>
+              <input
+                type="text"
+                placeholder="Nhập địa chỉ"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                required
+              />
             </div>
-          </div>
-
-          <div className="mb-4">
-            <label className="form-label">Xác nhận mật khẩu</label>
-            <div className="input-group">
-              <span className="input-group-text">🔐</span>
-              <input type="password" className="form-control" placeholder="Xác nhận mật khẩu"
-                     value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+            <div className="form-group">
+              <label>Mật Khẩu</label>
+              <input
+                type="password"
+                placeholder="Nhập mật khẩu"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
-          </div>
-
-          <div className="d-flex justify-content-between">
-            <button type="submit" className="btn btn-primary">Đăng ký</button>
-            <button type="button" className="btn btn-secondary" onClick={() => navigate("/login")}>Đăng nhập</button>
-          </div>
-        </form>
+            <div className="form-group">
+              <label>Xác Nhận Mật Khẩu</label>
+              <input
+                type="password"
+                placeholder="Nhập lại mật khẩu"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group terms">
+              <input
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+              />
+              <label>
+                Tôi đồng ý với <b>điều khoản và chính sách</b> của chúng tôi.
+              </label>
+            </div>
+            <button type="submit" className="btn-create-account">TẠO TÀI KHOẢN</button>
+            <p className="signin-link">
+              Bạn đã có tài khoản? <a onClick={() => navigate("/login")}>Đăng nhập</a>
+            </p>
+          </form>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

@@ -1,0 +1,121 @@
+/* Container chính */
+.booking-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #1a2a44, #2c3e50); /* Gradient nền tối */
+    padding: 20px;
+}
+
+/* Card chứa form */
+.booking-card {
+    max-width: 450px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1); /* Nền trắng mờ */
+    border-radius: 15px;
+    backdrop-filter: blur(10px); /* Hiệu ứng mờ */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Tiêu đề */
+.booking-title {
+    color: #fff;
+    font-size: 28px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+/* Nhóm input */
+.booking-input-group {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+/* Label */
+.booking-label {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Input */
+.booking-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 0;
+    transition: border-bottom 0.3s ease;
+}
+
+.booking-input:focus {
+    border-bottom: 2px solid #fff;
+    outline: none;
+}
+
+/* Thông tin giá */
+.booking-price-info {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+/* Văn bản giá */
+.booking-price-text {
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+/* Giá trị giá */
+.booking-price-value {
+    color: #ff6f91;
+    font-weight: bold;
+}
+
+/* Nút Thanh toán ngay */
+.booking-button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(to right, #00c4cc, #ff6f91); /* Gradient nút */
+    color: #fff;
+    font-size: 18px;
+    border-radius: 25px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Trạng thái disabled của nút */
+.booking-button-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Spinner khi loading */
+.booking-spinner {
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+/* Keyframes cho spinner */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -1,82 +1,155 @@
+/* General Styles */
+.home {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
 
-.search-container { 
+/* Banner */
+.home-banner {
+    position: relative;
+    width: 100%;
+    height: 500px;
+}
+
+.home-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.home-banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Overlay tối */
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: #fff;
+    text-align: center;
+}
+
+.home-banner-title {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.home-banner-subtitle {
+    font-size: 20px;
+    opacity: 0.8;
+    color :#fff
+}
+
+/* Search Section */
+.home-search-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Intro Section */
+.home-intro-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.home-section-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #1a2a44;
+    margin-bottom: 10px;
+}
+
+.home-section-subtitle {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.home-countdown {
     margin-top: 20px;
 }
 
-.search-box {
-    width: 100%;
-    max-width: 500px;
-    border-radius: 50px;
-    padding: 12px 20px;
-    border: 2px solid #007bff;
-    font-size: 16px;
-    outline: none;
-    transition: all 0.3s ease-in-out;
+/* Countdown Timer */
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
-.search-box:focus {
-    border-color: #0056b3;
-    box-shadow: 0px 0px 8px rgba(0, 91, 187, 0.5);
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.search-button {
-    border-radius: 50px;
-    padding: 10px 20px;
-    background: #007bff;
-    color: white;
-    border: none;
+.countdown-value {
+    width: 80px;
+    height: 80px;
+    background: #00c4cc;
+    color: #fff;
+    font-size: 32px;
     font-weight: bold;
-    transition: all 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
-.search-button:hover {
-    background: #0056b3;
-}
-.navbar {
-    padding: 12px 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.countdown-value:hover {
+    transform: scale(1.1);
 }
 
-.navbar-brand {
-    font-size: 24px;
-    font-weight: bold;
-    color: white !important;
+.countdown-label {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
 }
 
-.navbar-text {
-    font-size: 16px;
-    font-weight: 500;
+/* Tours Section */
+.home-tours-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
 }
 
-.navbar .btn {
-    border-radius: 20px;
-    padding: 8px 16px;
-    transition: all 0.3s ease-in-out;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .home-banner {
+        height: 300px;
+    }
 
-.navbar .btn-light {
-    background-color: white;
-    color: #007bff;
-    border: none;
-}
+    .home-banner-title {
+        font-size: 32px;
+    }
 
-.navbar .btn-light:hover {
-    background-color: #0056b3;
-    color: white;
-}
+    .home-banner-subtitle {
+        font-size: 16px;
+    }
 
-.navbar .btn-light:focus {
-    box-shadow: 0px 0px 8px rgba(0, 91, 187, 0.5);
-}
+    .home-section-title {
+        font-size: 28px;
+    }
 
-.navbar .btn-logout {
-    background-color: #dc3545;
-    color: white;
-}
+    .home-section-subtitle {
+        font-size: 16px;
+    }
 
-.navbar .btn-logout:hover {
-    background-color: #a71d2a;
+    .countdown-timer {
+        gap: 10px;
+    }
+
+    .countdown-value {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+    }
 }

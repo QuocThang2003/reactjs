@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import "../styles/home.css";
 
 const CountdownTimer = ({ targetDate }) => {
     const calculateTimeLeft = () => {
         const now = new Date();
         const difference = Math.floor((new Date(targetDate) - now) / 1000);
-        return difference > 0 ? difference : 0; // Nếu hết hạn thì trả về 0
+        return difference > 0 ? difference : 0;
     };
 
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -24,22 +25,22 @@ const CountdownTimer = ({ targetDate }) => {
         const secs = seconds % 60;
 
         return (
-            <div className="d-flex justify-content-center text-primary fw-bold">
-                <div className="mx-2 text-center">
-                    <h2>{days}</h2>
-                    <p className="mb-0">Days</p>
+            <div className="countdown-timer">
+                <div className="countdown-item">
+                    <div className="countdown-value">{days}</div>
+                    <div className="countdown-label">Days</div>
                 </div>
-                <div className="mx-2 text-center">
-                    <h2>{hours < 10 ? `0${hours}` : hours}</h2>
-                    <p className="mb-0">Hour</p>
+                <div className="countdown-item">
+                    <div className="countdown-value">{hours < 10 ? `0${hours}` : hours}</div>
+                    <div className="countdown-label">Hours</div>
                 </div>
-                <div className="mx-2 text-center">
-                    <h2>{minutes < 10 ? `0${minutes}` : minutes}</h2>
-                    <p className="mb-0">Minute</p>
+                <div className="countdown-item">
+                    <div className="countdown-value">{minutes < 10 ? `0${minutes}` : minutes}</div>
+                    <div className="countdown-label">Minutes</div>
                 </div>
-                <div className="mx-2 text-center">
-                    <h2>{secs < 10 ? `0${secs}` : secs}</h2>
-                    <p className="mb-0">Second</p>
+                <div className="countdown-item">
+                    <div className="countdown-value">{secs < 10 ? `0${secs}` : secs}</div>
+                    <div className="countdown-label">Seconds</div>
                 </div>
             </div>
         );

@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate, Link } from "react-router-dom"; // Thêm Link từ react-router-dom
 import { jwtDecode } from "jwt-decode";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import "../styles/loginuser.css";
 
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(""); // Thêm state để hiển thị lỗi
+    const [error, setError] = useState("");
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        setError(""); // Reset lỗi trước khi gọi API
+        setError("");
 
         try {
             const response = await axios.post("http://localhost:5000/api/auth/login", {
@@ -22,91 +26,94 @@ const Login = () => {
             });
 
             if (response?.data?.token) {
-                localStorage.setItem("token", response.data.token); // Lưu token vào localStorage
-                
-                // Giải mã token để lấy thông tin người dùng từ token
+                localStorage.setItem("token", response.data.token);
                 const decodedToken = jwtDecode(response.data.token);
 
-                localStorage.setItem("user", JSON.stringify({ 
-                    id: decodedToken.id, 
-                    fullName: decodedToken.fullName 
-                })); // Lưu thông tin người dùng từ token vào localStorage
+                localStorage.setItem("user", JSON.stringify({
+                    id: decodedToken.id,
+                    fullName: decodedToken.fullName,
+                    address: decodedToken.address,
+                    phone: decodedToken.phone,
+                }));
 
-                console.log("Đăng nhập thành công:", response.data);
-                navigate("/"); // Điều hướng đến trang chính
+                navigate("/");
             } else {
                 setError("Lỗi: Không có dữ liệu trả về từ API");
             }
         } catch (error) {
-            console.error("Lỗi khi đăng nhập:", error);
-            setError("Email hoặc mật khẩu không chính xác!"); // Hiển thị lỗi lên UI
+            setError(error.response?.data?.message || "Email hoặc mật khẩu không chính xác!");
         }
     };
 
+    const handleGoogleLogin = () => {
+        window.location.href = "http://localhost:5000/auth/google";
+    };
+
     return (
-        <div
-            className="d-flex justify-content-center align-items-center vh-100 bg-gradient"
-            style={{ background: "linear-gradient(to bottom, #4b0082, #0000ff)" }}
-        >
-            <div className="bg-white p-4 rounded shadow-lg w-25">
-                <h2 className="text-center text-primary">Đăng Nhập</h2>
-                <div
-                    className="mx-auto my-2"
-                    style={{ width: "50px", height: "3px", backgroundColor: "#4b0082" }}
-                ></div>
-
-                {error && <div className="alert alert-danger">{error}</div>} {/* Hiển thị lỗi */}
-
-                <form onSubmit={handleLogin}>
-                    <div className="mb-3">
-                        <label className="form-label">Email</label>
-                        <div className="input-group">
-                            <span className="input-group-text">📧</span>
-                            <input
-                                type="email"
-                                className="form-control"
-                                placeholder="Email của bạn"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
+        <>
+            <Header />
+            <div className="login-container">
+                <div className="login-card">
+                    <h2 className="login-title">LOGIN</h2>
+                    {error && (
+                        <div className="login-error">
+                            {error}
                         </div>
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="form-label">Mật khẩu</label>
-                        <div className="input-group">
-                            <span className="input-group-text">🔒</span>
-                            <input
-                                type="password"
-                                className="form-control"
-                                placeholder="Mật khẩu"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
+                    )}
+                    <form onSubmit={handleLogin} className="login-form">
+                        <div className="form-group">
+                            <div className="input-container">
+                                <FontAwesomeIcon icon={faEnvelope} className="input-icon" />
+                                <input
+                                    type="email"
+                                    placeholder="Nhập vào email của bạn"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
                         </div>
-                    </div>
-
-                    {/* Nút và link */}
-                    <div className="d-flex justify-content-between align-items-center">
-                        <button
-                            type="button"
-                            className="btn btn-secondary"
-                            onClick={() => navigate("/register")}
-                        >
-                            Đăng ký
+                        <div className="form-group">
+                            <div className="input-container">
+                                <FontAwesomeIcon icon={faLock} className="input-icon" />
+                                <input
+                                    type="password"
+                                    placeholder="••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        {/* Thêm liên kết Quên mật khẩu */}
+                        <div className="text-center">
+                            <p className="forgot-password-link">
+                                <Link to="/forgot-password">Quên mật khẩu?</Link>
+                            </p>
+                        </div>
+                        <button type="submit" className="login-btn">
+                            LOGIN
                         </button>
-                        <a href="/forgot-password" className="text-decoration-none">
-                                     Quên mật khẩu?
-                        </a>
-                        <button type="submit" className="btn btn-primary">
-                            Đăng nhập
-                        </button>
+                    </form>
+                    <div className="text-center">
+                        <p className="signup-text">Or Sign Up Using</p>
+                        <div className="google-btn-container">
+                            <button
+                                type="button"
+                                className="social-btn google-btn"
+                                onClick={handleGoogleLogin}
+                            >
+                                <FontAwesomeIcon icon={faGoogle} />
+                            </button>
+                        </div>
+                        <p className="signup-link">
+                            <a href="/register">SIGN UP</a>
+                        </p>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+            <Footer />
+        </>
     );
 };
 

@@ -1,0 +1,54 @@
+/* Custom styles for the BookingTour component */
+.tour-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tour-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #007bff;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Ensure consistent spacing and alignment */
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.card-text {
+    font-size: 0.95rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    .card-text {
+        font-size: 0.85rem;
+    }
+
+    .btn-primary {
+        font-size: 0.9rem;
+    }
+}

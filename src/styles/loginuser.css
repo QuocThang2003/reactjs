@@ -1,0 +1,181 @@
+/* Container chính */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #1a2a44, #2c3e50); /* Gradient nền tối */
+    font-family: Arial, sans-serif;
+}
+
+/* Card chứa form */
+.login-card {
+    max-width: 400px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1); /* Nền xám đậm với độ trong suốt */
+    border-radius: 10px;
+    padding: 30px;
+    backdrop-filter: blur(10px); /* Hiệu ứng mờ */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Tiêu đề */
+.login-title {
+    color: #fff;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+/* Thông báo lỗi */
+.login-error {
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff0000;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+/* Form group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Input */
+.form-group input {
+    width: 100%;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5); /* Viền dưới trắng mờ */
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.form-group input:focus {
+    border-bottom: 1px solid #fff; /* Viền dưới trắng sáng khi focus */
+}
+
+/* Nút LOGIN */
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(to right, #00c4cc, #ff6f91); /* Gradient nút */
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.login-btn:hover {
+    opacity: 0.9;
+}
+
+/* Văn bản "Or Sign Up Using" */
+.signup-text {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 20px 0 10px;
+    text-align: center;
+}
+
+/* Nút Google Login */
+.social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.google-btn {
+    background-color: #db4437; /* Màu đỏ của Google */
+    color: #fff;
+}
+
+.social-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Liên kết SIGN UP */
+.signup-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.signup-link a {
+    color: #ff6f91;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* Căn giữa nút Google */
+.google-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* Căn giữa nội dung */
+.text-center {
+    text-align: center;
+}
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px 10px 10px 40px; /* Dịch nội dung vào để tránh icon */
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+}
+
+.input-container .input-icon {
+    position: absolute;
+    left: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+}
+/* Liên kết Quên mật khẩu */
+.forgot-password-link {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.forgot-password-link a {
+    color: #ff6f91;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.forgot-password-link a:hover {
+    text-decoration: underline;
+}

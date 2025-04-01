@@ -1,0 +1,152 @@
+/* Tour List Section */
+.tour-list-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.tour-list-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #1a2a44;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tour-list-empty {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+}
+
+/* Tour List */
+.tour-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* Tour Card */
+.tour-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tour-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Tour Image */
+.tour-img-container {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+}
+
+.tour-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease-in-out;
+}
+
+.tour-img-link:hover .tour-img {
+    transform: scale(1.2);
+}
+
+.tour-img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Overlay tối */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.tour-img-link:hover .tour-img-overlay {
+    opacity: 0.8;
+}
+
+.tour-name {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    padding: 0 15px;
+}
+
+/* Tour Content */
+.tour-content {
+    padding: 20px;
+}
+
+.tour-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tour-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+.tour-duration {
+    font-size: 14px;
+    color: #666;
+}
+
+.tour-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.tour-btn {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: #00c4cc;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.tour-btn:hover {
+    background: #009ba1;
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tour-list {
+        grid-template-columns: 1fr;
+    }
+
+    .tour-list-title {
+        font-size: 28px;
+    }
+
+    .tour-img-container {
+        height: 200px;
+    }
+
+    .tour-name {
+        font-size: 20px;
+    }
+}
