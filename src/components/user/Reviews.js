@@ -27,7 +27,7 @@ const Reviews = ({ reviews, noReviewsMessage, tourId, onReviewAdded }) => {
 
     useEffect(() => {
         const checkUserCanReview = async () => {
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
             const bookings = JSON.parse(localStorage.getItem("bookings") || "[]");
             const booking = bookings.find((b) => b.tourId === tourId);
             const bookingId = booking ? booking.bookingId : null;
@@ -62,7 +62,7 @@ const Reviews = ({ reviews, noReviewsMessage, tourId, onReviewAdded }) => {
         setLoading(true);
         setErrorMessage(""); // Xóa thông báo lỗi cũ
 
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         const bookings = JSON.parse(localStorage.getItem("bookings") || "[]");
         const booking = bookings.find((b) => b.tourId === tourId);
         const bookingId = booking ? booking.bookingId : null;

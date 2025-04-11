@@ -40,7 +40,7 @@ const AddItinerary = ({ isOpen, setIsOpen, refresh }) => {
             formData.append("endTime", values.endTime.format("HH:mm"));
             if (file) formData.append("image", file);
     
-            const token = localStorage.getItem("token"); // Lấy token từ localStorage
+            const token = sessionStorage.getItem("token"); 
     
             await axios.post("http://localhost:5000/api/itineraries", formData, {
                 headers: { Authorization: `Bearer ${token}` }, 

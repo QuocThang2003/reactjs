@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaCalendarAlt, FaUsers, FaMoneyBillWave, FaInfoCircle } from "react-icons/fa";
+import { FaCalendarAlt, FaUsers, FaMoneyBillWave, FaInfoCircle, FaFolder } from "react-icons/fa"; // Thêm FaFolder cho danh mục
 import Reviews from "./Reviews";
 import Itineraries from "./Itineraries";
 import Header from "../Header";
 import Footer from "../Footer";
 import { Spinner, Alert } from "react-bootstrap";
-import "../../styles/TourDetail.css"; // Updated CSS import
+import "../../styles/TourDetail.css";
 
 const TourDetail = () => {
     const { id } = useParams();
@@ -124,11 +124,18 @@ const TourDetail = () => {
                                 <FaUsers className="text-info me-2" />
                                 <span><strong>Số lượng:</strong> {tour.quantity} người</span>
                             </p>
-                            <p className="d-flex align-items-center mb-4">
+                            <p className="d-flex align-items-center mb-3">
                                 <FaCalendarAlt className="text-secondary me-2" />
                                 <span>
                                     <strong>Thời gian:</strong> {formatDate(tour.startDate)} -{" "}
                                     {formatDate(tour.endDate)}
+                                </span>
+                            </p>
+                            <p className="d-flex align-items-center mb-4">
+                                <FaFolder className="text-primary me-2" />
+                                <span>
+                                    <strong>Danh mục:</strong>{" "}
+                                    {tour.category?.categoryName || "Không có danh mục"}
                                 </span>
                             </p>
                             <button

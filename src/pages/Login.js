@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom"; // Thêm Link từ react-router-dom
+import { useNavigate, Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +17,26 @@ const Login = () => {
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        setError("");
+        setError(""); // Reset thông báo lỗi
+
+        // 1. Kiểm tra email và password có được cung cấp không
+        if (!email || !password) {
+            setError("Vui lòng nhập email và mật khẩu!");
+            return;
+        }
+
+        // 2. Kiểm tra định dạng email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setError("Email không hợp lệ!");
+            return;
+        }
+
+        // 3. Kiểm tra độ dài mật khẩu (mới)
+        if (password.length < 6) {
+            setError("Mật khẩu phải có ít nhất 6 ký tự!");
+            return;
+        }
 
         try {
             const response = await axios.post("http://localhost:5000/api/auth/login", {
@@ -26,22 +45,25 @@ const Login = () => {
             });
 
             if (response?.data?.token) {
-                localStorage.setItem("token", response.data.token);
+                sessionStorage.setItem("token", response.data.token);
                 const decodedToken = jwtDecode(response.data.token);
 
-                localStorage.setItem("user", JSON.stringify({
+                sessionStorage.setItem("user", JSON.stringify({
                     id: decodedToken.id,
                     fullName: decodedToken.fullName,
                     address: decodedToken.address,
                     phone: decodedToken.phone,
                 }));
 
+                // Hiển thị thông báo thành công trước khi chuyển hướng
+                alert(response.data.message); // "Đăng nhập thành công! Xin chào, [fullName]"
                 navigate("/");
             } else {
                 setError("Lỗi: Không có dữ liệu trả về từ API");
             }
         } catch (error) {
-            setError(error.response?.data?.message || "Email hoặc mật khẩu không chính xác!");
+            // 4. Hiển thị lỗi từ backend (email hoặc mật khẩu không đúng)
+            setError(error.response?.data?.message || "Có lỗi xảy ra. Vui lòng thử lại!");
         }
     };
 
@@ -56,7 +78,7 @@ const Login = () => {
                 <div className="login-card">
                     <h2 className="login-title">LOGIN</h2>
                     {error && (
-                        <div className="login-error">
+                        <div className="login-error" style={{ color: "red", marginBottom: "15px", textAlign: "center" }}>
                             {error}
                         </div>
                     )}
@@ -65,11 +87,10 @@ const Login = () => {
                             <div className="input-container">
                                 <FontAwesomeIcon icon={faEnvelope} className="input-icon" />
                                 <input
-                                    type="email"
+                                    type="text"
                                     placeholder="Nhập vào email của bạn"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    required
                                 />
                             </div>
                         </div>
@@ -81,11 +102,9 @@ const Login = () => {
                                     placeholder="••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    required
                                 />
                             </div>
                         </div>
-                        {/* Thêm liên kết Quên mật khẩu */}
                         <div className="text-center">
                             <p className="forgot-password-link">
                                 <Link to="/forgot-password">Quên mật khẩu?</Link>
@@ -107,7 +126,7 @@ const Login = () => {
                             </button>
                         </div>
                         <p className="signup-link">
-                            <a href="/register">SIGN UP</a>
+                            <Link to="/register">SIGN UP</Link>
                         </p>
                     </div>
                 </div>

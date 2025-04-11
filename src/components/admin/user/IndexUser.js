@@ -9,7 +9,7 @@ const IndexUser = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const token = localStorage.getItem("token"); // Lấy token từ LocalStorage
+                const token = sessionStorage.getItem("token"); // Lấy token từ LocalStorage
                 if (!token) {
                     setError("Bạn chưa đăng nhập!");
                     return;

@@ -11,7 +11,7 @@ const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false); // State cho menu hamburger
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         if (token) {
             const decodedToken = jwtDecode(token);
             setUser({
@@ -22,8 +22,8 @@ const Header = () => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
         setUser(null);
         navigate("/");
     };

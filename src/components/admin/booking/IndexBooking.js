@@ -13,8 +13,8 @@ const IndexBooking = () => {
     useEffect(() => {
         const fetchBookings = async () => {
             try {
-                const token = localStorage.getItem("token");
-                const role = localStorage.getItem("role");
+                const token = sessionStorage.getItem("token");
+                const role = sessionStorage.getItem("role");
 
                 if (!token) {
                     setError("Bạn chưa đăng nhập!");

@@ -12,7 +12,7 @@ const IndexContact = () => {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const token = localStorage.getItem("token");
+                const token = sessionStorage.getItem("token");
                 if (!token) {
                     setError("Bạn chưa đăng nhập!");
                     return;
@@ -36,7 +36,7 @@ const IndexContact = () => {
     // 📌 Lấy chi tiết liên hệ khi click
     const fetchContactById = async (id) => {
         try {
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
             const response = await axios.get(`http://localhost:5000/api/contact/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`

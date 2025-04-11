@@ -11,9 +11,9 @@ const GoogleAuthHandler = () => {
         console.log("Token trong Login.js:", token); // Debug token
     
         if (token) {
-            localStorage.setItem("token", token);
+            sessionStorage.setItem("token", token);
             const decodedToken = jwtDecode(token);
-            localStorage.setItem("user", JSON.stringify({
+            sessionStorage.setItem("user", JSON.stringify({
                 id: decodedToken.id,
                 fullName: decodedToken.fullName
             }));

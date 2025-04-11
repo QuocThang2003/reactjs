@@ -5,8 +5,8 @@ import axios from "axios";
 const DeleteItinerary = ({ isOpen, setIsOpen, itinerary, refresh }) => {
     const handleDelete = async () => {
         try {
-            // Lấy token từ localStorage (hoặc nơi bạn lưu trữ token)
-            const token = localStorage.getItem("token"); // Giả sử token được lưu ở đây
+            
+            const token = sessionStorage.getItem("token"); // Giả sử token được lưu ở đây
 
             if (!token) {
                 message.error("Không tìm thấy token, vui lòng đăng nhập lại!");

@@ -1,39 +1,66 @@
-import React, { useState } from "react";
-import { Modal, Form, Input, Button, Upload, message } from "antd";
+import React, { useState, useEffect } from "react";
+import { Modal, Form, Input, Button, Upload, message, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
+
+const { Option } = Select;
 
 const AddTour = ({ isOpen, onClose, refreshTours }) => {
     const [file, setFile] = useState(null);
     const [form] = Form.useForm();
+    const [categories, setCategories] = useState([]); // Khởi tạo là mảng rỗng
+
+    // Lấy danh sách danh mục khi modal mở
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await axios.get("http://localhost:5000/api/categories");
+                // Kiểm tra cấu trúc dữ liệu trả về
+                const categoryData = res.data.data || res.data; // Điều chỉnh theo cấu trúc API
+                if (Array.isArray(categoryData)) {
+                    setCategories(categoryData);
+                } else {
+                    console.error("Dữ liệu danh mục không phải là mảng:", categoryData);
+                    setCategories([]);
+                }
+            } catch (error) {
+                console.error("Lỗi khi tải danh sách danh mục:", error);
+                message.error("Lỗi khi tải danh sách danh mục");
+                setCategories([]);
+            }
+        };
+        if (isOpen) {
+            fetchCategories();
+        }
+    }, [isOpen]);
 
     const handleAddTour = async () => {
         try {
             const values = await form.validateFields();
             const formData = new FormData();
-            Object.keys(values).forEach(key => formData.append(key, values[key]));
+            Object.keys(values).forEach((key) => formData.append(key, values[key]));
             if (file) formData.append("img", file);
-    
-            const token = localStorage.getItem("token"); // Lấy token từ localStorage
-    
+
+            const token = sessionStorage.getItem("token");
+
             await axios.post("http://localhost:5000/api/tours", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${token}` // Gửi token trong header
-                }
+                    Authorization: `Bearer ${token}`,
+                },
             });
-    
+
             message.success("Thêm tour thành công");
-            form.resetFields();  // Reset form
-            setFile(null);  // Xóa file đã chọn
-            onClose();  // Đóng modal
-            refreshTours();  // Load lại danh sách
+            form.resetFields();
+            setFile(null);
+            onClose();
+            refreshTours();
         } catch (error) {
             message.error("Lỗi khi thêm tour");
+            console.error("Chi tiết lỗi:", error.response?.data || error.message);
         }
     };
 
-    // Hàm kiểm tra ngày bắt đầu và ngày kết thúc
     const validateDateRange = (_, value) => {
         const startDate = form.getFieldValue("startDate");
         const endDate = form.getFieldValue("endDate");
@@ -43,7 +70,6 @@ const AddTour = ({ isOpen, onClose, refreshTours }) => {
         return Promise.resolve();
     };
 
-    // Hàm kiểm tra số lượng
     const validateQuantity = (_, value) => {
         if (value < 1) {
             return Promise.reject(new Error("Số lượng phải lớn hơn hoặc bằng 1"));
@@ -51,7 +77,6 @@ const AddTour = ({ isOpen, onClose, refreshTours }) => {
         return Promise.resolve();
     };
 
-    // Hàm kiểm tra giá
     const validatePrice = (_, value) => {
         if (value <= 0) {
             return Promise.reject(new Error("Giá phải là số dương"));
@@ -65,69 +90,90 @@ const AddTour = ({ isOpen, onClose, refreshTours }) => {
             open={isOpen}
             onCancel={onClose}
             footer={[
-                <Button key="cancel" onClick={onClose}>Hủy</Button>,
-                <Button key="submit" type="primary" onClick={handleAddTour}>Thêm</Button>
+                <Button key="cancel" onClick={onClose}>
+                    Hủy
+                </Button>,
+                <Button key="submit" type="primary" onClick={handleAddTour}>
+                    Thêm
+                </Button>,
             ]}
         >
             <Form form={form} layout="vertical">
-                <Form.Item 
-                    name="tourName" 
-                    label="Tên Tour" 
+                <Form.Item
+                    name="tourName"
+                    label="Tên Tour"
                     rules={[{ required: true, message: "Vui lòng nhập tên tour" }]}
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item 
-                    name="description" 
-                    label="Mô tả" 
+                <Form.Item
+                    name="description"
+                    label="Mô tả"
                     rules={[{ required: true, message: "Vui lòng nhập mô tả" }]}
                 >
                     <Input.TextArea />
                 </Form.Item>
-                <Form.Item 
-                    name="price" 
-                    label="Giá" 
+                <Form.Item
+                    name="price"
+                    label="Giá"
                     rules={[
                         { required: true, message: "Vui lòng nhập giá" },
-                        { validator: validatePrice }
+                        { validator: validatePrice },
                     ]}
                 >
                     <Input type="number" />
                 </Form.Item>
-                <Form.Item 
-                    name="quantity" 
-                    label="Số lượng" 
+                <Form.Item
+                    name="quantity"
+                    label="Số lượng"
                     rules={[
                         { required: true, message: "Vui lòng nhập số lượng" },
-                        { validator: validateQuantity }
+                        { validator: validateQuantity },
                     ]}
                 >
                     <Input type="number" />
                 </Form.Item>
-                <Form.Item 
-                    name="startDate" 
-                    label="Ngày bắt đầu" 
+                <Form.Item
+                    name="startDate"
+                    label="Ngày bắt đầu"
                     rules={[
                         { required: true, message: "Vui lòng chọn ngày bắt đầu" },
-                        { validator: validateDateRange }
+                        { validator: validateDateRange },
                     ]}
                 >
                     <Input type="date" />
                 </Form.Item>
-                <Form.Item 
-                    name="endDate" 
-                    label="Ngày kết thúc" 
+                <Form.Item
+                    name="endDate"
+                    label="Ngày kết thúc"
                     rules={[
                         { required: true, message: "Vui lòng chọn ngày kết thúc" },
-                        { validator: validateDateRange }
+                        { validator: validateDateRange },
                     ]}
                 >
                     <Input type="date" />
+                </Form.Item>
+                <Form.Item
+                    name="category"
+                    label="Danh mục"
+                    rules={[{ required: true, message: "Vui lòng chọn danh mục" }]}
+                >
+                    <Select placeholder="Chọn danh mục" loading={!categories.length}>
+                        {categories.length > 0 ? (
+                            categories.map((cat) => (
+                                <Option key={cat._id} value={cat._id}>
+                                    {cat.categoryName}
+                                </Option>
+                            ))
+                        ) : (
+                            <Option disabled>Không có danh mục</Option>
+                        )}
+                    </Select>
                 </Form.Item>
                 <Form.Item name="img" label="Hình ảnh">
                     <Upload
                         fileList={file ? [file] : []}
-                        beforeUpload={(file) => { 
+                        beforeUpload={(file) => {
                             setFile(file);
                             return false;
                         }}

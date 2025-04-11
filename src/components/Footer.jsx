@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhone, faEnvelope, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPhone, faEnvelope, faMapMarkerAlt, faComment } from "@fortawesome/free-solid-svg-icons"; // Thêm faComment
 import "../styles/header-footer.css";
+import io from "socket.io-client";
+import ChatUser from "./user/ChatUser";
+
+// Khởi tạo kết nối Socket.IO
+const socket = io("http://localhost:5000", {
+    withCredentials: true,
+});
 
 const Footer = () => {
+    const [isChatOpen, setIsChatOpen] = useState(false); // State để điều khiển hiển thị chat
+
+    // Hàm mở/đóng cửa sổ chat
+    const toggleChat = () => {
+        setIsChatOpen(!isChatOpen);
+    };
+
     return (
         <footer className="footer">
             <div className="footer-container">
@@ -41,8 +55,21 @@ const Footer = () => {
                     </ul>
                 </div>
             </div>
+
+            {/* Icon chat cố định */}
+            <div className="chat-icon" onClick={toggleChat}>
+                <FontAwesomeIcon icon={faComment} size="2x" />
+            </div>
+
+            {/* Cửa sổ chat hiển thị khi bấm icon */}
+            {isChatOpen && (
+                <div className="chat-window">
+                    <ChatUser socket={socket} onClose={toggleChat} />
+                </div>
+            )}
+
             <div className="footer-bottom">
-                <p>&copy; {new Date().getFullYear()} TravelApp. All Rights Reserved.</p>
+                <p>© {new Date().getFullYear()} TravelApp. All Rights Reserved.</p>
             </div>
         </footer>
     );

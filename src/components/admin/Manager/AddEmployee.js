@@ -13,7 +13,7 @@ const AddEmployee = () => {
         e.preventDefault();
         try {
             await axios.post('http://localhost:5000/api/employees/register', { username, password, role }, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
             });
             alert('Employee registered successfully');
             navigate('/admin/employees');  

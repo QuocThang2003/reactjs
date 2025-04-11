@@ -12,7 +12,7 @@ const BookingHistory = () => {
 
     const fetchBookings = async () => {
         try {
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
             if (!token) {
                 alert("Vui lòng đăng nhập để xem lịch sử giao dịch!");
                 return;
@@ -32,7 +32,7 @@ const BookingHistory = () => {
         if (!window.confirm("Bạn có chắc chắn muốn hủy đơn này không?")) return;
 
         try {
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
             await axios.put(`http://localhost:5000/api/bookings/cancel/${bookingId}`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });

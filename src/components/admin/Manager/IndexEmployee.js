@@ -13,7 +13,7 @@ const IndexEmployee = () => {
         const fetchEmployees = async () => {
             try {
                 const response = await axios.get("http://localhost:5000/api/employees", {
-                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                    headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
                 });
                 setEmployees(response.data);
             } catch (error) {
@@ -28,7 +28,7 @@ const IndexEmployee = () => {
     const toggleStatus = async (id) => {
         try {
             await axios.put(`http://localhost:5000/api/employees/toggle-status/${id}`, {}, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
             });
             setEmployees(
                 employees.map(emp =>
@@ -44,7 +44,7 @@ const IndexEmployee = () => {
         if (window.confirm("Bạn có chắc chắn muốn xóa nhân viên này không?")) {
             try {
                 await axios.delete(`http://localhost:5000/api/employees/${id}`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+                    headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
                 });
                 setEmployees(employees.filter(emp => emp._id !== id));
             } catch (error) {

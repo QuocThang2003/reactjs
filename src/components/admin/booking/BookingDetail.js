@@ -8,7 +8,7 @@ const BookingDetail = ({ bookingId, onClose }) => {
     useEffect(() => {
         const fetchBooking = async () => {
             try {
-                const token = localStorage.getItem("token");
+                const token = sessionStorage.getItem("token");
                 const response = await axios.get(`http://localhost:5000/api/bookings/${bookingId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });

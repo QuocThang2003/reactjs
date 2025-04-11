@@ -13,14 +13,25 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [address, setAddress] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    if (!termsAccepted) {
-      alert("Vui lòng chấp nhận điều khoản để tiếp tục.");
+    setErrorMessage(""); // Reset thông báo lỗi
+
+    // Kiểm tra xem các trường có bị để trống không
+    if (!fullName || !phone || !email || !password || !confirmPassword || !address) {
+      setErrorMessage("Vui lòng điền đầy đủ tất cả các trường!");
       return;
     }
+
+    // Kiểm tra điều khoản
+    if (!termsAccepted) {
+      setErrorMessage("Vui lòng chấp nhận điều khoản để tiếp tục.");
+      return;
+    }
+
     try {
       const response = await axios.post("http://localhost:5000/api/auth/register", {
         fullName,
@@ -35,10 +46,10 @@ const Register = () => {
       navigate("/login");
     } catch (error) {
       console.error("Lỗi đăng ký:", error);
-      if (error.response) {
-        alert("Lỗi đăng ký: " + (error.response.data?.message || "Lỗi từ server không rõ"));
+      if (error.response && error.response.data && error.response.data.message) {
+        setErrorMessage(error.response.data.message);
       } else {
-        alert("Lỗi đăng ký: Không kết nối được tới server");
+        setErrorMessage("Không kết nối được tới server. Vui lòng thử lại sau!");
       }
     }
   };
@@ -50,6 +61,14 @@ const Register = () => {
         <div className="register-form">
           <button className="close-btn" onClick={() => navigate("/")}>×</button>
           <h2>· Đăng Ký Tài Khoản ·</h2>
+
+          {/* Hiển thị thông báo lỗi */}
+          {errorMessage && (
+            <div className="error-message" style={{ color: "red", marginBottom: "15px" }}>
+              {errorMessage}
+            </div>
+          )}
+
           <form onSubmit={handleRegister}>
             <div className="form-group">
               <label>Họ và Tên</label>
@@ -58,7 +77,7 @@ const Register = () => {
                 placeholder="Nhập họ và tên"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                required
+                // Bỏ thuộc tính required
               />
             </div>
             <div className="form-group">
@@ -68,7 +87,7 @@ const Register = () => {
                 placeholder="Nhập email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
+                // Bỏ thuộc tính required
               />
             </div>
             <div className="form-group">
@@ -78,7 +97,7 @@ const Register = () => {
                 placeholder="Nhập số điện thoại"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                required
+                // Bỏ thuộc tính required
               />
             </div>
             <div className="form-group">
@@ -88,7 +107,7 @@ const Register = () => {
                 placeholder="Nhập địa chỉ"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                required
+                // Bỏ thuộc tính required
               />
             </div>
             <div className="form-group">
@@ -98,7 +117,7 @@ const Register = () => {
                 placeholder="Nhập mật khẩu"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
+                // Bỏ thuộc tính required
               />
             </div>
             <div className="form-group">
@@ -108,7 +127,7 @@ const Register = () => {
                 placeholder="Nhập lại mật khẩu"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                required
+                // Bỏ thuộc tính required
               />
             </div>
             <div className="form-group terms">

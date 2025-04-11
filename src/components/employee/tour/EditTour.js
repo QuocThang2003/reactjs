@@ -1,28 +1,54 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Input, Button, Upload, message } from "antd";
+import { Modal, Form, Input, Button, Upload, message, Select } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
+
+const { Option } = Select;
 
 const EditTour = ({ isOpen, setIsOpen, tour, refreshTours }) => {
     const [form] = Form.useForm();
     const [file, setFile] = useState(null);
+    const [categories, setCategories] = useState([]); // Khởi tạo là mảng rỗng
 
     useEffect(() => {
-        if (tour) {
+        const fetchCategories = async () => {
+            try {
+                const res = await axios.get("http://localhost:5000/api/categories");
+                // Kiểm tra cấu trúc dữ liệu trả về
+                const categoryData = res.data.data || res.data; // Điều chỉnh theo cấu trúc API
+                if (Array.isArray(categoryData)) {
+                    setCategories(categoryData);
+                } else {
+                    console.error("Dữ liệu danh mục không phải là mảng:", categoryData);
+                    setCategories([]);
+                }
+            } catch (error) {
+                console.error("Lỗi khi tải danh sách danh mục:", error);
+                message.error("Lỗi khi tải danh sách danh mục");
+                setCategories([]);
+            }
+        };
+
+        if (isOpen) {
+            fetchCategories();
+        }
+
+        if (tour && isOpen) {
             form.setFieldsValue({
                 ...tour,
                 startDate: tour.startDate ? new Date(tour.startDate).toISOString().split("T")[0] : "",
-                endDate: tour.endDate ? new Date(tour.endDate).toISOString().split("T")[0] : ""
+                endDate: tour.endDate ? new Date(tour.endDate).toISOString().split("T")[0] : "",
+                category: tour.category?._id || tour.category, // Gán category ID
             });
         }
-    }, [tour, form]);
+    }, [tour, form, isOpen]);
 
     const handleEditTour = async () => {
         try {
             const values = await form.validateFields();
             const formData = new FormData();
 
-            Object.keys(values).forEach(key => {
+            Object.keys(values).forEach((key) => {
                 if (key === "startDate" || key === "endDate") {
                     values[key] = values[key] ? new Date(values[key]).toISOString() : "";
                 }
@@ -33,13 +59,13 @@ const EditTour = ({ isOpen, setIsOpen, tour, refreshTours }) => {
                 formData.append("img", file);
             }
 
-            const token = localStorage.getItem("token");
+            const token =sessionStorage.getItem("token");
 
             await axios.put(`http://localhost:5000/api/tours/${tour._id}`, formData, {
-                headers: { 
+                headers: {
                     "Content-Type": "multipart/form-data",
-                    "Authorization": `Bearer ${token}` 
-                }
+                    Authorization: `Bearer ${token}`,
+                },
             });
 
             message.success("Cập nhật tour thành công");
@@ -51,7 +77,6 @@ const EditTour = ({ isOpen, setIsOpen, tour, refreshTours }) => {
         }
     };
 
-    // Hàm kiểm tra ngày bắt đầu và ngày kết thúc
     const validateDateRange = (_, value) => {
         const startDate = form.getFieldValue("startDate");
         const endDate = form.getFieldValue("endDate");
@@ -61,7 +86,6 @@ const EditTour = ({ isOpen, setIsOpen, tour, refreshTours }) => {
         return Promise.resolve();
     };
 
-    // Hàm kiểm tra số lượng
     const validateQuantity = (_, value) => {
         if (value < 1) {
             return Promise.reject(new Error("Số lượng phải lớn hơn hoặc bằng 1"));
@@ -69,7 +93,6 @@ const EditTour = ({ isOpen, setIsOpen, tour, refreshTours }) => {
         return Promise.resolve();
     };
 
-    // Hàm kiểm tra giá
     const validatePrice = (_, value) => {
         if (value <= 0) {
             return Promise.reject(new Error("Giá phải là số dương"));
@@ -78,77 +101,95 @@ const EditTour = ({ isOpen, setIsOpen, tour, refreshTours }) => {
     };
 
     return (
-        <Modal 
-            title="Chỉnh sửa Tour" 
-            open={isOpen} 
-            onCancel={() => setIsOpen(false)} 
+        <Modal
+            title="Chỉnh sửa Tour"
+            open={isOpen}
+            onCancel={() => setIsOpen(false)}
             onOk={handleEditTour}
         >
             <Form form={form} layout="vertical">
-                <Form.Item 
-                    name="tourName" 
-                    label="Tên Tour" 
+                <Form.Item
+                    name="tourName"
+                    label="Tên Tour"
                     rules={[{ required: true, message: "Vui lòng nhập tên tour" }]}
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item 
-                    name="description" 
-                    label="Mô tả" 
+                <Form.Item
+                    name="description"
+                    label="Mô tả"
                     rules={[{ required: true, message: "Vui lòng nhập mô tả" }]}
                 >
                     <Input.TextArea />
                 </Form.Item>
-                <Form.Item 
-                    name="price" 
-                    label="Giá" 
+                <Form.Item
+                    name="price"
+                    label="Giá"
                     rules={[
                         { required: true, message: "Vui lòng nhập giá" },
-                        { validator: validatePrice }
+                        { validator: validatePrice },
                     ]}
                 >
                     <Input type="number" />
                 </Form.Item>
-                <Form.Item 
-                    name="quantity" 
-                    label="Số lượng" 
+                <Form.Item
+                    name="quantity"
+                    label="Số lượng"
                     rules={[
                         { required: true, message: "Vui lòng nhập số lượng" },
-                        { validator: validateQuantity }
+                        { validator: validateQuantity },
                     ]}
                 >
                     <Input type="number" />
                 </Form.Item>
-                <Form.Item 
-                    name="startDate" 
-                    label="Ngày bắt đầu" 
+                <Form.Item
+                    name="startDate"
+                    label="Ngày bắt đầu"
                     rules={[
                         { required: true, message: "Vui lòng chọn ngày bắt đầu" },
-                        { validator: validateDateRange }
+                        { validator: validateDateRange },
                     ]}
                 >
                     <Input type="date" />
                 </Form.Item>
-                <Form.Item 
-                    name="endDate" 
-                    label="Ngày kết thúc" 
+                <Form.Item
+                    name="endDate"
+                    label="Ngày kết thúc"
                     rules={[
                         { required: true, message: "Vui lòng chọn ngày kết thúc" },
-                        { validator: validateDateRange }
+                        { validator: validateDateRange },
                     ]}
                 >
                     <Input type="date" />
                 </Form.Item>
+                <Form.Item
+                    name="category"
+                    label="Danh mục"
+                    rules={[{ required: true, message: "Vui lòng chọn danh mục" }]}
+                >
+                    <Select placeholder="Chọn danh mục" loading={!categories.length}>
+                        {categories.length > 0 ? (
+                            categories.map((cat) => (
+                                <Option key={cat._id} value={cat._id}>
+                                    {cat.categoryName}
+                                </Option>
+                            ))
+                        ) : (
+                            <Option disabled>Không có danh mục</Option>
+                        )}
+                    </Select>
+                </Form.Item>
                 <Form.Item label="Hình ảnh">
-                    <Upload 
-                        beforeUpload={(file) => { setFile(file); return false; }}
+                    <Upload
+                        beforeUpload={(file) => {
+                            setFile(file);
+                            return false;
+                        }}
                         showUploadList={false}
                     >
                         <Button icon={<UploadOutlined />}>Chọn Ảnh</Button>
                     </Upload>
-                    {tour?.img && !file && (
-                        <p style={{ marginTop: 8 }}>Ảnh hiện tại: {tour.img}</p>
-                    )}
+                    {tour?.img && !file && <p style={{ marginTop: 8 }}>Ảnh hiện tại: {tour.img}</p>}
                 </Form.Item>
             </Form>
         </Modal>

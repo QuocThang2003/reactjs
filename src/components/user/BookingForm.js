@@ -33,7 +33,7 @@ const BookingForm = () => {
     const totalPrice = tourPrice ? tourPrice * quantity : 0;
 
     const handleBooking = async () => {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
 
         if (!token) {
             alert("Bạn cần đăng nhập để đặt tour!");

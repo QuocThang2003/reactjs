@@ -19,6 +19,9 @@ const IndexTour = () => {
     const [selectedTourId, setSelectedTourId] = useState(null);
     const [editingTour, setEditingTour] = useState(null);
     const [collapsed, setCollapsed] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalTours, setTotalTours] = useState(0);
+    const pageSize = 5;
 
     const formatDate = (dateString) => {
         if (!dateString) return "";
@@ -27,14 +30,15 @@ const IndexTour = () => {
     };
 
     useEffect(() => {
-        fetchTours();
-    }, []);
+        fetchTours(currentPage);
+    }, [currentPage]);
 
-    const fetchTours = async () => {
+    const fetchTours = async (page) => {
         setLoading(true);
         try {
-            const res = await axios.get("http://localhost:5000/api/tours/");
-            setTours(res.data);
+            const res = await axios.get(`http://localhost:5000/api/tours?page=${page}&limit=${pageSize}`);
+            setTours(res.data.tours || res.data);
+            setTotalTours(res.data.total || res.data.length);
         } catch (error) {
             message.error("Lỗi khi tải danh sách tour");
         }
@@ -44,8 +48,9 @@ const IndexTour = () => {
     const handleSearch = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`http://localhost:5000/api/tours/search?tourName=${search}`);
-            setTours(res.data || []);
+            const res = await axios.get(`http://localhost:5000/api/tours/search?tourName=${search}&page=${currentPage}&limit=${pageSize}`);
+            setTours(res.data.tours || res.data);
+            setTotalTours(res.data.total || res.data.length);
         } catch (error) {
             message.error("Lỗi khi tìm kiếm");
         }
@@ -98,6 +103,12 @@ const IndexTour = () => {
             render: formatDate,
         },
         {
+            title: "Danh mục",
+            dataIndex: "category",
+            key: "categoryName",
+            render: (category) => category?.categoryName || "Không có danh mục",
+        },
+        {
             title: "Hình ảnh",
             dataIndex: "img",
             key: "img",
@@ -107,11 +118,11 @@ const IndexTour = () => {
                         src={`http://localhost:5000/uploads/${img}`}
                         alt="Tour"
                         style={{
-                            width: "100px", // Chiều rộng cố định
-                            height: "60px", // Chiều cao cố định
-                            objectFit: "cover", // Cắt ảnh để vừa khung mà không méo
-                            borderRadius: "5px", // Bo góc
-                            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", // Bóng đổ nhẹ
+                            width: "100px",
+                            height: "60px",
+                            objectFit: "cover",
+                            borderRadius: "5px",
+                            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                         }}
                     />
                 ),
@@ -127,11 +138,20 @@ const IndexTour = () => {
                     <Button type="default" onClick={() => openDetailModal(record._id)}>
                         Xem Chi Tiết
                     </Button>
-                    <DeleteTour id={record._id} fetchTours={fetchTours} />
+                    <DeleteTour tourId={record._id} fetchTours={() => fetchTours(currentPage)} />
                 </div>
             ),
         },
     ];
+
+    const paginationConfig = {
+        current: currentPage,
+        pageSize: pageSize,
+        total: totalTours,
+        onChange: (page) => setCurrentPage(page),
+        showSizeChanger: false,
+        showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} tour`,
+    };
 
     return (
         <div className="dashboard-container">
@@ -153,18 +173,25 @@ const IndexTour = () => {
                         </Button>
                     </div>
                 </div>
-                <Table dataSource={tours} rowKey="_id" loading={loading} columns={columns} bordered />
+                <Table
+                    dataSource={tours}
+                    rowKey="_id"
+                    loading={loading}
+                    columns={columns}
+                    bordered
+                    pagination={paginationConfig}
+                />
 
                 <AddTour
                     isOpen={isAddModalOpen}
                     onClose={() => setIsAddModalOpen(false)}
-                    refreshTours={fetchTours}
+                    refreshTours={() => fetchTours(currentPage)}
                 />
                 <EditTour
                     isOpen={isEditModalOpen}
                     setIsOpen={setIsEditModalOpen}
                     tour={editingTour}
-                    refreshTours={fetchTours}
+                    refreshTours={() => fetchTours(currentPage)}
                 />
                 {isDetailModalOpen && (
                     <TourDetail

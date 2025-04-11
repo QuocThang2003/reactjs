@@ -1,14 +1,13 @@
-import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu } from "antd";
-import { HomeOutlined, LogoutOutlined, UnorderedListOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { HomeOutlined, LogoutOutlined, UnorderedListOutlined, LeftOutlined, RightOutlined, AppstoreOutlined } from "@ant-design/icons";
 import "../../styles/EmployeeDashboard.css";
 
 const EmployeeSidebar = ({ collapsed, toggleSidebar }) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token"); 
         navigate("/login/admin");
     };
 
@@ -27,7 +26,10 @@ const EmployeeSidebar = ({ collapsed, toggleSidebar }) => {
                 <Menu.Item key="2" icon={<UnorderedListOutlined />} className="menu-item">
                     <Link to="/employee/itineraries">Quản lý Lịch Trình</Link>
                 </Menu.Item>
-                <Menu.Item key="3" icon={<LogoutOutlined />} onClick={handleLogout} className="menu-item">
+                <Menu.Item key="3" icon={<AppstoreOutlined />} className="menu-item">
+                    <Link to="/employee/categories">Quản lý Danh mục</Link>
+                </Menu.Item>
+                <Menu.Item key="4" icon={<LogoutOutlined />} onClick={handleLogout} className="menu-item">
                     Đăng xuất
                 </Menu.Item>
             </Menu>

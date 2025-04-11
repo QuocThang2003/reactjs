@@ -75,7 +75,7 @@ const TourDetail = ({ tourId, onClose }) => {
     useEffect(() => {
         const fetchTour = async () => {
             try {
-                const token = localStorage.getItem("token");
+                const token = sessionStorage.getItem("token");
                 const response = await axios.get(`http://localhost:5000/api/tours/${tourId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
@@ -130,6 +130,12 @@ const TourDetail = ({ tourId, onClose }) => {
                         <div style={styles.infoRow}>
                             <span style={styles.label}>Ngày kết thúc:</span>
                             <span style={styles.value}>{formatDate(tour.endDate)}</span>
+                        </div>
+                        <div style={styles.infoRow}>
+                            <span style={styles.label}>Danh mục:</span>
+                            <span style={styles.value}>
+                                {tour.category?.categoryName || "Không có danh mục"}
+                            </span>
                         </div>
                         {tour.img && (
                             <div style={styles.infoRow}>

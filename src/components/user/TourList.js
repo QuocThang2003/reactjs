@@ -2,6 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/TourList.css";
 
+// Hàm chuyển đổi định dạng ngày từ ISO sang DD/MM/YYYY
+const formatDate = (dateString) => {
+    if (!dateString) return 
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0"); // Lấy ngày, thêm 0 nếu cần
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Lấy tháng (bắt đầu từ 0 nên +1)
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+};
+
 const TourList = ({ tours = [], searchResults = [] }) => {
     const displayedTours = Array.isArray(searchResults) && searchResults.length > 0 ? searchResults : tours;
 
@@ -33,7 +43,7 @@ const TourList = ({ tours = [], searchResults = [] }) => {
                                         {tour.price ? `${tour.price.toLocaleString()} VNĐ` : "Liên hệ"}
                                     </p>
                                     <p className="tour-duration">
-                                        {tour.duration || "N/A"} ngày
+                                        {formatDate(tour.startDate)} {/* Sử dụng hàm formatDate */}
                                     </p>
                                 </div>
                                 <p className="tour-description">

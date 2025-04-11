@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { UserOutlined, LockOutlined } from "@ant-design/icons"; // Thay MailOutlined bằng UserOutlined
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "../styles/login.css";
 
 const LoginForm = () => {
@@ -22,8 +22,8 @@ const LoginForm = () => {
 
             if (response.status === 200) {
                 const data = response.data;
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("role", data.role);
+                sessionStorage.setItem("token", data.token); // Thay localStorage thành sessionStorage
+                sessionStorage.setItem("role", data.role);   // Thay localStorage thành sessionStorage
 
                 if (data.role === "admin") {
                     navigate("/admin/dashboard");
@@ -56,7 +56,7 @@ const LoginForm = () => {
                             type="text"
                             id="username"
                             className="form-control"
-                            placeholder="Nhập vào thông tin tài khoản" 
+                            placeholder="Nhập vào thông tin tài khoản"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required

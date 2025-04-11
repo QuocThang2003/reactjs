@@ -106,3 +106,109 @@
     margin-left: 80px;
     width: calc(100% - 80px);
 }
+.chat-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* Đảm bảo nổi lên trên các thành phần khác */
+  background: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 600px; /* Tùy chỉnh kích thước */
+  max-height: 80vh;
+  overflow-y: auto;
+}
+  
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #001529;
+    color: white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  
+  .chat-close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  /* Danh sách khách online */
+  .user-list {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .user-select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Ô nhập tin nhắn và nút gửi */
+  .chat-input {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    gap: 5px; /* Khoảng cách giữa input và button */
+  }
+  
+  .chat-input input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .chat-input button {
+    padding: 5px 10px;
+    background-color: #001529;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .chat-input button:hover {
+    background-color: #003a8c;
+  }
+  /* Tùy chỉnh badge thông báo */
+.ant-badge-dot {
+  background: red; /* Màu đỏ cho dấu chấm */
+  width: 8px;
+  height: 8px;
+  top: 2px;
+  right: -2px;
+}
+
+/* Đảm bảo icon và label trong menu không bị lệch */
+.menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.menu-item .anticon {
+  margin-right: 8px;
+}

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 // Route yêu cầu người dùng phải đăng nhập
 const PrivateRoute = ({ children }) => {
     const navigate = useNavigate();
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     useEffect(() => {
         if (!token) {
@@ -22,7 +22,7 @@ const PrivateRoute = ({ children }) => {
 // Route chỉ dành cho Admin
 const AdminRoute = ({ children }) => {
     const navigate = useNavigate();
-    const role = localStorage.getItem("role");
+    const role = sessionStorage.getItem("role");
 
     if (role !== "admin") {
         navigate("/"); // Nếu không phải admin, chuyển hướng về trang chính
@@ -34,7 +34,7 @@ const AdminRoute = ({ children }) => {
 // Middleware kiểm tra quyền Employee
 const EmployeeRoute = ({ children }) => {
     const navigate = useNavigate();
-    const role = localStorage.getItem("role");
+    const role = sessionStorage.getItem("role");
 
     if (role !== "employee") {
         navigate("/"); // Nếu không phải employee, chuyển hướng về trang chính

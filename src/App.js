@@ -20,6 +20,7 @@ import ItineraryList from "./components/employee/itineraries/ItineraryList";
 import IndexEmployee from "./components/admin/Manager/IndexEmployee";
 import IndexUser from "./components/admin/user/IndexUser";
 import IndexBooking from "./components/admin/booking/IndexBooking";
+import IndexCategory from "./components/employee/category/IndexCategory";
 import BarChart from "./components/admin/booking/BarChart";
 import LoginForm from "./components/LoginForm";
 import AdminSidebar from "./components/admin/AdminSidebar";
@@ -149,6 +150,14 @@ function App() {
                     element={
                         <EmployeeRoute>
                             <ItineraryList />
+                        </EmployeeRoute>
+                    } 
+                />
+                <Route 
+                    path="/employee/categories" 
+                    element={
+                        <EmployeeRoute>
+                            <IndexCategory />
                         </EmployeeRoute>
                     } 
                 />
